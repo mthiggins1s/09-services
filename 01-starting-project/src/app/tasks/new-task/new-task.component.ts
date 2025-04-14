@@ -1,6 +1,7 @@
-import { Component, ElementRef, viewChild } from '@angular/core';
+import { Component, ElementRef, Inject, viewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TasksService } from '../tasks.service';
+import { TasksServiceToken } from '../../../main';
 
 @Component({
   selector: 'app-new-task',
@@ -18,7 +19,7 @@ export class NewTaskComponent {
 
   // * We can REQUEST a service as a dependency from Angular by specifying it as a paramenter.
     // with the 'private' keyword, so TS will automatically create a property with the same name.
-  constructor(private tasksService: TasksService) {}
+  constructor(@Inject(TasksServiceToken) private tasksService: TasksService) {}
 
   onAddTask(title: string, description: string) {
     // we can now call this.tasksService.addTask and pass our data to onAddTask.

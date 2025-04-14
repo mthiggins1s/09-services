@@ -1,7 +1,9 @@
-import { Component, computed, input } from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { Task, TaskStatus } from '../../task.model';
+import { TasksService } from '../../tasks.service';
+import { TasksServiceToken } from '../../../../main';
 
 @Component({
   selector: 'app-task-item',
@@ -11,6 +13,9 @@ import { Task, TaskStatus } from '../../task.model';
   styleUrl: './task-item.component.css',
 })
 export class TaskItemComponent {
+  // inject tasksService to update the status.
+  private tasksService = inject(TasksServiceToken);
+
   task = input.required<Task>();
   taskStatus = computed(() => {
     switch (this.task().status) {
@@ -41,5 +46,8 @@ export class TaskItemComponent {
       default:
         break;
     }
+
+    // we can now call updateTasksStatus by passing the id, and the new status to that method.
+    this.tasksService.updateTaskStatus(taskId, newStatus);
   }
 }
