@@ -11,7 +11,10 @@ import { Task } from "./task.model";
 // job of this service is to manage tasks
 export class TasksService {
   // Task is being exxported via interface; this signal will manage an array of tasks.
-  tasks = signal<Task[]>([]);
+  private tasks = signal<Task[]>([]);
+
+  // since we made the tasks signal private, we need a way to inject the service and expose the data to other places. We can use a readonly signal, which yields a signal.
+  allTasks = this.tasks.asReadonly();
 
   // add task method which can be triggered in the new-task component when the form is submitted (onAddTask).
   addTask(taskData: {title: string; description: string}) {
